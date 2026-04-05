@@ -27,7 +27,7 @@ def register(body: UserRegister, db: Session = Depends(get_db)) -> None:
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Email уже существует",
+            detail="Такой пользователь уже существует",
         )
 
 
@@ -39,7 +39,7 @@ def login(body: UserLogin, db: Session = Depends(get_db)) -> TokenResponse:
     if user is None or not _pwd_context.verify(body.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Ошибка",
+            detail="Ошибка аутентификации",
         )
 
     now = datetime.now(timezone.utc)
