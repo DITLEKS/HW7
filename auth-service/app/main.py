@@ -12,5 +12,5 @@ app.include_router(router)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
         status_code=400,
-        content={"detail": "Неверный формат email"},
+        content={"detail": "Неверный email или пароль"},
     )
