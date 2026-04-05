@@ -22,12 +22,12 @@ def get_current_user_id(
     if not authorization:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Заголовок Authorization отсутствует",
+            detail="Ошибка",
         )
     if not authorization.startswith(_BEARER_PREFIX):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Неверный формат токена. Ожидается: Bearer <token>",
+            detail="Ошибка",
         )
 
     token = authorization[len(_BEARER_PREFIX):]
@@ -38,10 +38,10 @@ def get_current_user_id(
     except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Срок действия токена истёк",
+            detail="Ошибка",
         )
     except (jwt.InvalidTokenError, KeyError, ValueError):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Невалидный токен",
+            detail="Ошибка",
         )

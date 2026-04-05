@@ -1,6 +1,6 @@
 services:
-  postgres:
-    image: postgres:16-alpine
+  db:
+    image: postgres:13-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -19,22 +19,22 @@ services:
     build: ./auth-service
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     ports:
       - "8000:8000"
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
 
   posts-service:
     build: ./posts-service
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     ports:
       - "8001:8000"
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
 
 volumes:

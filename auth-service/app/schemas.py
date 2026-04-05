@@ -10,15 +10,8 @@ class UserRegister(BaseModel):
     @field_validator("password")
     @classmethod
     def password_is_strong(cls, v: str) -> str:
-        errors = []
-        if len(v) < 8:
-            errors.append("не менее 8 символов")
-        if not re.search(r"[A-Za-z]", v):
-            errors.append("минимум одна буква")
-        if not re.search(r"\d", v):
-            errors.append("минимум одна цифра")
-        if errors:
-            raise ValueError("Пароль должен содержать: " + ", ".join(errors))
+        if len(v) < 8 or not re.search(r"[A-Za-z]", v) or not re.search(r"\d", v):
+            raise ValueError("Пароль слабый")
         return v
 
 
